@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+
+<!--
+
+    build.xml
+
+    The purpose of this file is to direct the Ant build process for the Programs project.
+
+    Build targets of external interest:
+
+        build-manifest-jar
+            Builds the "ManifestJar" JAR file from scratch.
+
+    @version $Id: build.xml,v 1.1 2003/08/30 22:21:43 bkkj Exp $
+
+-->
+
+<!DOCTYPE project>
+
+<project name="SixDice"
+    default="Build JAR">
+
+    <description>
+		SixDice Animation Editor
+    </description>
+
+    <!-- set base properties for project -->
+    <property name="src-core" value="../module-jz-common/src"/>
+    <property name="src" value="src"/>
+    <property name="mediaroot" value="."/>
+    <property name="build" value="../buildtemp"/>
+    <property name="lib" value="../lib"/>
+    <property name="doc" value="../doc"/>
+    <property name="root" value=".."/>
+    <property name="binaries" value="../../binaries" />
+
+    <property name="sixdice-version" value="0.63" />
+
+    <!-- This target compiles the SixDice.jar from scratch. -->
+    <target name="Build JAR"
+        description="Builds SixDice.jar from scratch, including image resources.">
+
+        <!-- Clean out all old class files -->
+        <delete dir="${build}"/>
+        <mkdir dir="${build}"/>
+
+        <!-- Build the project -->
+        <javac srcdir="${src}:${src-core}"
+            includes="orioni/sixdice/SixDice.java"
+            destdir="${build}">
+            <compilerarg line="-g:lines"/>
+        </javac>
+
+        <!-- JAR the project -->
+        <jar destfile="${root}/SixDice-.jar">
+            <fileset dir="${build}"/>
+            <fileset dir="${mediaroot}"
+                includes="media/SixDice-Splash-v${sixdice-version}.png"/>
+        </jar>
+
+        <!-- Run ManifestJar -->
+        <java jar="${binaries}/ManifestJar.jar" fork="true">
+            <arg file="${root}/SixDice-.jar"/>
+            <arg value="orioni.sixdice.SixDice"/>
+            <arg file="${root}/SixDice.jar"/>
+        </java>
+
+        <!-- Delete clutter -->
+        <delete file="${root}/SixDice-.jar"/>
+        <delete dir="${build}"/>
+    </target>
+
+</project>

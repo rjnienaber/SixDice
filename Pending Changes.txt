@@ -1,0 +1,9 @@
+KNOWN BUGS
+----------
+data\global\overlays\Expansion\MISSILE_BLUE_A.dcc appears to be decoding incorrectly?
+data\global\overlays\Expansion\MISSILE_RED_A.dcc appears to be decoding incorrectly?
+
+RFES
+----------
+resizing option
+more developed console
